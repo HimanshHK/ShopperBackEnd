@@ -11,8 +11,7 @@ import {AiOutlineFacebook,AiOutlineTwitter} from 'react-icons/ai';
 export default function Dashboard() {
  
   const [data,setData]=useState([]);
-  const user = localStorage.getItem('user')
-
+  
   useEffect(()=>{
     axios.get('http://localhost:3001/orders')
         .then(response => {

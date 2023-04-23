@@ -7,7 +7,6 @@ import SignInAdmin from './components/SignInAdmin';
 
 import { Update,SellerItems,Registered,SupportAdmin,Home, SingleProduct, Cart, Checkout, Error, About, Products, PrivateRoute, AuthWrapper,Dashboard,Profile,Orders,Support ,Admin,ProfileAdmin,Users} from './pages';
 import AddProduct from "./pages/AddProduct";
-import {useState} from "react";
 
 export const UserContext = createContext(null);
 function App() {

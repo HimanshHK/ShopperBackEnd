@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "nodemon server.js",
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "test":"mocha"
   },
   "name": "backend",
   "version": "1.0.0",
@@ -25,7 +26,7 @@
   "devDependencies": {
     "nodemon": "^2.0.21"
   },
-  "keywords" : [],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "description": ""

@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "sinon": "^15.0.4",
+    "sinon-chai": "^3.7.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "mongoose": "^7.0.4"
+  }
+}

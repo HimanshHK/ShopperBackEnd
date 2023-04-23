@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 exports.getBlockedUsers = (req, res, next) => {
   return UserModal.find({ blocked: true }).then((user)=>{
     console.log(user);
-    if(!user)
+    if(user.length===0)
     return res.status(401).json({ message: "No user exist"});
     else
     return res.status(200).json({ message: "Logged in", user: user })
@@ -16,7 +16,7 @@ exports.getBlockedUsers = (req, res, next) => {
 };
 
 exports.getUsers = (req, res, next) => {
-  UserModal.find({blocked:false})
+  return UserModal.find({blocked:false})
     .then((data) => {
       // console.log(data)
       res.status(200).json(data);
@@ -39,24 +39,27 @@ exports.getUserById = (req, res, next) => {
 };
 // POST Methods
 exports.postUser = (req, res, next) => {
-  console.log(req.body);
-  UserModal.findOne({ email: req.body.username }).then((user) => {
-    if (!user) {
-      return res.status(401).json({ message: "User does not exist" });
-    }
-
-    // return bcrypt.compare(password, req.body.password);
-    console.log(user);
-    bcrypt.compare(req.body.password, user.password).then((doMatch) => {
-      if (doMatch) {
-        return res.status(200).json({ message: "Logged in", user: user });
+  // console.log(req.body);
+  return UserModal.findOne({ email: req.body.username })
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({ message: "User does not exist" });
       }
-      return res.status(401).json({ message: "Invalid password" });
-    }).catch((err) => {
-      console.log(err);
-      return res.json({ message: err });
-    });
-  });
+
+      // return bcrypt.compare(password, req.body.password);
+      // console.log(user);
+      return bcrypt
+        .compare(req.body.password, user.password)
+        .then((doMatch) => {
+          if (doMatch) {
+            return res.status(200).json({ message: "Logged in", user: user });
+          }
+          return res.status(401).json({ message: "Invalid password" });
+        });
+    })
+    .catch((err) => {
+      return res.json({ message: err });
+    });
 };
 
 // exports.postRegister = (req, res, next) => {
