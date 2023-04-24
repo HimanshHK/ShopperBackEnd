@@ -108,11 +108,11 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use("/uploads", express.static(path.join(__dirname, "../shared/uploads")));
 
-app.use("/api",adminRoutes);
-app.use("/api",userRoutes);
-app.use("/api",productRoutes);
-app.use("/api",feedsRoutes);
-app.use("/api",ordersRoutes);
+app.use(adminRoutes);
+app.use(userRoutes);
+app.use(productRoutes);
+app.use(feedsRoutes);
+app.use(ordersRoutes);
 
 app.listen(port, () => {
   console.log("Server started at port: " + port);
