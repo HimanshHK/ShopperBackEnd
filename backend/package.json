@@ -2,7 +2,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "devStart": "nodemon server.js",
-    "test": "mocha"
+    "test": "mocha",
+    "build":"npm i"
   },
   "name": "backend",
   "version": "1.0.0",
