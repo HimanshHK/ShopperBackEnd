@@ -48,6 +48,6 @@ export const services = [
     },
 ]
 
-export const products_url = 'http://localhost:3001/products'
+export const products_url = 'https://react-backend-k01p.onrender.com/products'
 
-export const single_product_url = `http://localhost:3001/products/`
+export const single_product_url = `https://react-backend-k01p.onrender.com/products/`
