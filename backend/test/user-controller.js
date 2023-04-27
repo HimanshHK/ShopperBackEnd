@@ -342,7 +342,7 @@
 //       expect(res.responseJson).to.deep.equal({ message: "Logged in", user: user });
 //     });
   
-//     it("should return a status code of 500 and an error message if there's an error in the login process", async () => {
+    // it("should return a status code of 500 and an error message if there's an error in the login process", async () => {
 //       sinon.stub(UserModal, "findOne").rejects();
 //       try {
 //         await userController.postUser(req, res, () => {});
