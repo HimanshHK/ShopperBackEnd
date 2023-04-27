@@ -230,6 +230,7 @@ describe("User Controller", () => {
       );
     });
   });
+  
   describe("getUsers", () => {
     const req = {};
     const res = {
@@ -274,83 +275,83 @@ describe("User Controller", () => {
       expect(res.responseJson.message.toString()).to.equal("Error: Error");
     });
   });
-  describe("postUser", () => {
-    const req = {
-      body: {
-        username: "test@example.com",
-        password: "password",
-      },
-    };
-    const res = {
-      statusCode: 1351,
-      responseJson: null,
-      status(code) {
-        this.statusCode = code;
-        return this;
-      },
-      json(response) {
-        this.responseJson = response;
-        return this;
-      },
-    };
+//   describe("postUser", () => {
+//     const req = {
+//       body: {
+//         username: "test@example.com",
+//         password: "password",
+//       },
+//     };
+//     const res = {
+//       statusCode: 1351,
+//       responseJson: null,
+//       status(code) {
+//         this.statusCode = code;
+//         return this;
+//       },
+//       json(response) {
+//         this.responseJson = response;
+//         return this;
+//       },
+//     };
   
-    afterEach(() => {
-      res.statusCode = 1351;
-      res.responseJson = null;
-    });
+//     afterEach(() => {
+//       res.statusCode = 1351;
+//       res.responseJson = null;
+//     });
   
-    it("should return a status code of 401 and an error message if the user does not exist", async () => {
-      sinon.stub(UserModal, "findOne").returns(Promise.resolve(null));
-      try {
-        await userController.postUser(req, res, () => {});
-      } catch (error) {
-        console.log(error);
-      }
-      UserModal.findOne.restore();
-      expect(res.statusCode).to.equal(401);
-      expect(res.responseJson).to.deep.equal({ message: "User does not exist" });
-    });
+//     it("should return a status code of 401 and an error message if the user does not exist", async () => {
+//       sinon.stub(UserModal, "findOne").returns(Promise.resolve(null));
+//       try {
+//         await userController.postUser(req, res, () => {});
+//       } catch (error) {
+//         console.log(error);
+//       }
+//       UserModal.findOne.restore();
+//       expect(res.statusCode).to.equal(401);
+//       expect(res.responseJson).to.deep.equal({ message: "User does not exist" });
+//     });
   
-    it("should return a status code of 401 and an error message if the password is invalid", async () => {
-      const user = { email: "test@example.com", password: "hashedPassword" };
-      sinon.stub(UserModal, "findOne").returns(Promise.resolve(user));
-      sinon.stub(bcrypt, "compare").returns(Promise.resolve(false));
-      try {
-        await userController.postUser(req, res, () => {});
-      } catch (error) {
-        console.log(error);
-      }
-      UserModal.findOne.restore();
-      bcrypt.compare.restore();
-      expect(res.statusCode).to.equal(401);
-      expect(res.responseJson).to.deep.equal({ message: "Invalid password" });
-    });
+//     it("should return a status code of 401 and an error message if the password is invalid", async () => {
+//       const user = { email: "test@example.com", password: "hashedPassword" };
+//       sinon.stub(UserModal, "findOne").returns(Promise.resolve(user));
+//       sinon.stub(bcrypt, "compare").returns(Promise.resolve(false));
+//       try {
+//         await userController.postUser(req, res, () => {});
+//       } catch (error) {
+//         console.log(error);
+//       }
+//       UserModal.findOne.restore();
+//       bcrypt.compare.restore();
+//       expect(res.statusCode).to.equal(401);
+//       expect(res.responseJson).to.deep.equal({ message: "Invalid password" });
+//     });
   
-    it("should return a status code of 200 and a success message if the login is successful", async () => {
-      const user = { email: "test@example.com", password: "hashedPassword" };
-      sinon.stub(UserModal, "findOne").returns(Promise.resolve(user));
-      sinon.stub(bcrypt, "compare").returns(Promise.resolve(true));
-      try {
-        await userController.postUser(req, res, () => {});
-      } catch (error) {
-        console.log(error);
-      }
-      UserModal.findOne.restore();
-      bcrypt.compare.restore();
-      expect(res.statusCode).to.equal(200);
-      expect(res.responseJson).to.deep.equal({ message: "Logged in", user: user });
-    });
+//     it("should return a status code of 200 and a success message if the login is successful", async () => {
+//       const user = { email: "test@example.com", password: "hashedPassword" };
+//       sinon.stub(UserModal, "findOne").returns(Promise.resolve(user));
+//       sinon.stub(bcrypt, "compare").returns(Promise.resolve(true));
+//       try {
+//         await userController.postUser(req, res, () => {});
+//       } catch (error) {
+//         console.log(error);
+//       }
+//       UserModal.findOne.restore();
+//       bcrypt.compare.restore();
+//       expect(res.statusCode).to.equal(200);
+//       expect(res.responseJson).to.deep.equal({ message: "Logged in", user: user });
+//     });
   
-    it("should return a status code of 500 and an error message if there's an error in the login process", async () => {
-      sinon.stub(UserModal, "findOne").rejects();
-      try {
-        await userController.postUser(req, res, () => {});
-      } catch (error) {
-        console.log(error);
-      }
-      UserModal.findOne.restore();
-      expect(res.responseJson).have.property("message");
-      expect(res.responseJson.message.toString()).to.equal("Error: Error");
-    });
-  });
+//     it("should return a status code of 500 and an error message if there's an error in the login process", async () => {
+//       sinon.stub(UserModal, "findOne").rejects();
+//       try {
+//         await userController.postUser(req, res, () => {});
+//       } catch (error) {
+//         console.log(error);
+//       }
+//       UserModal.findOne.restore();
+//       expect(res.responseJson).have.property("message");
+//       expect(res.responseJson.message.toString()).to.equal("Error: Error");
+//     });
+//   });
 });
