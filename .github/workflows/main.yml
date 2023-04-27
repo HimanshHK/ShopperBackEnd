@@ -1,0 +1,25 @@
+name: Shopper Hk
+
+on:
+  push:
+    branches: ["master"]
+    paths: ["backend/**"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set permissions for mocha executable
+        run: chmod +x backend/node_modules/.bin/mocha
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+      - name: NPM install, build and test
+        working-directory: ./backend
+        run: |
+          npm install --unsafe-perm --force
+          npm test
+
