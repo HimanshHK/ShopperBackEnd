@@ -79,17 +79,17 @@
 // //   });
 // // });
 
-// const chai = require("chai");
-// const sinon = require("sinon");
-// const sinonChai = require("sinon-chai");
-// const bcrypt = require("bcrypt");
+const chai = require("chai");
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
+const bcrypt = require("bcrypt");
 
-// const expect = chai.expect;
-// chai.use(sinonChai);
+const expect = chai.expect;
+chai.use(sinonChai);
 
-// const mongoose = require("mongoose");
-// const UserModal = require("../models/userModal");
-// const userController = require("../controller/userController");
+const mongoose = require("mongoose");
+const UserModal = require("../models/userModal");
+const userController = require("../controller/userController");
 
 // describe("User Controller", () => {
 //   let user;

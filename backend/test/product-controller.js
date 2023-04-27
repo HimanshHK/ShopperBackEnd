@@ -55,18 +55,18 @@ describe("Product Controller", () => {
       res.responseJson = null;
     });
 
-    // it("should return a list of products with a status code of 200", async () => {
-    //   try {
-    //     await productController.getProducts(req, res);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
+    it("should return a list of products with a status code of 200", async () => {
+      try {
+        await productController.getProducts(req, res);
+      } catch (error) {
+        console.log(error);
+      }
 
-    //   expect(res.statusCode).to.equal(200);
-    //   expect(res.responseJson).to.be.an("array");
-    //   expect(res.responseJson).to.have.lengthOf(1);
-    //   expect(res.responseJson[0]).to.have.property("name", "Test Product");
-    // });
+      expect(res.statusCode).to.equal(200);
+      expect(res.responseJson).to.be.an("array");
+      expect(res.responseJson).to.have.lengthOf(1);
+      expect(res.responseJson[0]).to.have.property("name", "Test Product");
+    });
 
     it("should return an error message with a status code of 404 if there's an error fetching products", async () => {
       sinon.stub(ProductModal, "find").rejects();
