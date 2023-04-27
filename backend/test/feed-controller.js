@@ -9,8 +9,14 @@ const feedsModal = require("../models/feedsModal");
 const feedController = require("../controller/feedController");
 
 describe("Feed Controller", () => {
+    // it('Feed Controller', function () {
+    //     this.timeout(5000); // Setting the timeout for this test case to 5 seconds
+    //     // Your test code goes here
+    //   });
+    
   let user;
   before(async () => {
+    
     await mongoose.connect("mongodb://localhost:27017/ShopDB-test");
     user = new feedsModal({
         _id:"64247c3ff08cc1ab189eda62",
@@ -22,12 +28,14 @@ describe("Feed Controller", () => {
   });
 
   after(async () => {
+    
     await feedsModal.deleteMany({});
     await mongoose.connection.close();
   });
 
 
   describe("getFeeds", () => {
+    
     const req = {};
     const res = {
     //   statusCode: 1351,
