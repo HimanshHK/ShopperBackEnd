@@ -1,280 +1,280 @@
-// const chai = require('chai');
-// const sinon = require('sinon');
-// const sinonChai = require('sinon-chai');
+// // const chai = require('chai');
+// // const sinon = require('sinon');
+// // const sinonChai = require('sinon-chai');
+// // const expect = chai.expect;
+// // chai.use(sinonChai);
+
+// // const mongoose = require('mongoose');
+// // const UserModal = require('../models/user');
+// // const userController = require('../controllers/user');
+
+// // describe('User Controller', () => {
+// //   before(async () => {
+// //     await mongoose.connect('mongodb://localhost:27017/testDB', {
+// //       useNewUrlParser: true,
+// //       useUnifiedTopology: true,
+// //     });
+// //   });
+
+// //   after(async () => {
+// //     await mongoose.connection.close();
+// //   });
+
+// //   describe('getBlockedUsers', () => {
+// //     it('should return a list of blocked users', async () => {
+// //       const blockedUsers = [{ name: 'Alice',
+// //                               blocked: true },
+// //                             { name: 'Bob',
+// //                              blocked: true },];
+// //       const findStub = sinon.stub(UserModal, 'find').resolves(blockedUsers);
+// //       const req = {};
+// //       const res = {
+// //         status: sinon.stub().returnsThis(),
+// //         json: sinon.stub(),
+// //       };
+// //       const next = sinon.stub();
+
+// //       await userController.getBlockedUsers(req, res, next);
+
+// //       expect(findStub).to.have.been.calledOnceWith({ blocked: true });
+// //       expect(res.status).to.have.been.calledOnceWith(200);
+// //       expect(res.json).to.have.been.calledOnceWith({
+// //         message: 'Logged in',
+// //         user: blockedUsers,
+// //       });
+// //       expect(next).not.to.have.been.called;
+// //     });
+
+// //     it('should return a 401 status code if no users are found', async () => {
+// //       const findStub = sinon.stub(UserModal, 'find').resolves([]);
+// //       const req = {};
+// //       const res = {
+// //         status: sinon.stub().returnsThis(),
+// //         json: sinon.stub(),
+// //       };
+// //       const next = sinon.stub();
+
+// //       await userController.getBlockedUsers(req, res, next);
+
+// //       expect(findStub).to.have.been.calledOnceWith({ blocked: true });
+// //       expect(res.status).to.have.been.calledOnceWith(401);
+// //       expect(res.json).to.have.been.calledOnceWith({
+// //         message: 'No user exist',
+// //       });
+// //       expect(next).not.to.have.been.called;
+// //     });
+
+// //     it('should call the error handler if an error occurs', async () => {
+// //       const error = new Error('Database error');
+// //       const findStub = sinon.stub(UserModal, 'find').rejects(error);
+// //       const req = {};
+// //       const res = {};
+// //       const next = sinon.stub();
+
+// //       await userController.getBlockedUsers(req, res, next);
+
+// //       expect(findStub).to.have.been.calledOnceWith({ blocked: true });
+// //       expect(next).to.have.been.calledOnceWith(error);
+// //     });
+// //   });
+// // });
+
+// const chai = require("chai");
+// const sinon = require("sinon");
+// const sinonChai = require("sinon-chai");
+// const bcrypt = require("bcrypt");
+
 // const expect = chai.expect;
 // chai.use(sinonChai);
 
-// const mongoose = require('mongoose');
-// const UserModal = require('../models/user');
-// const userController = require('../controllers/user');
+// const mongoose = require("mongoose");
+// const UserModal = require("../models/userModal");
+// const userController = require("../controller/userController");
 
-// describe('User Controller', () => {
+// describe("User Controller", () => {
+//   let user;
 //   before(async () => {
-//     await mongoose.connect('mongodb://localhost:27017/testDB', {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
+//     await mongoose.connect("mongodb+srv://sachinm20:cp300464@cluster0.nkes8uj.mongodb.net/ShopDb?retryWrites=true&w=majority");
+//     user = new UserModal({
+//       _id: "69697e4df08cc1ab189e6969",
+//       name: "Test",
+//       password: "12345678",
+//       profilePicUrl: "uploads/images/2023-03-29T18_07_09.776Z-16096.jpg",
+//       email: "test@test.com",
+//       mobile: "9876543210",
+//       address: "123 Main St",
+//       pincode: "123456",
+//       orders: [],
+//       blocked: false,
+//       type: "Seller",
 //     });
+//     await user.save();
 //   });
 
 //   after(async () => {
+//     await UserModal.deleteMany({});
 //     await mongoose.connection.close();
 //   });
 
-//   describe('getBlockedUsers', () => {
-//     it('should return a list of blocked users', async () => {
-//       const blockedUsers = [{ name: 'Alice',
-//                               blocked: true },
-//                             { name: 'Bob',
-//                              blocked: true },];
-//       const findStub = sinon.stub(UserModal, 'find').resolves(blockedUsers);
-//       const req = {};
-//       const res = {
-//         status: sinon.stub().returnsThis(),
-//         json: sinon.stub(),
-//       };
-//       const next = sinon.stub();
+//   // describe("postRegister", () => {
+//   //   const req = {
+//   //     body: {
+//   //       name: "John Doe",
+//   //       password: "password123",
+//   //       email: "john@example.com",
+//   //       confirmPassword: "password123",
+//   //       mobile: "1234567890",
+//   //       address: "123 Main St",
+//   //       pincode: "123456",
+//   //       type: "Buyer",
+//   //     },
+//   //     file: {
+//   //       fieldname: 'profile-pic',
+//   // originalname: 'WIN_20230120_19_27_26_Pro.jpg',
+//   // encoding: '7bit',
+//   // mimetype: 'image/jpeg',
+//   // destination: '../shared/uploads/images',
+//   // filename: '2023-04-22T17_52_45.686Z-WIN_20230120_19_27_26_Pro.jpg',
+//   // path: '..\\shared\\uploads\\images\\2023-04-22T17_52_45.686Z-WIN_20230120_19_27_26_Pro.jpg',
+//   // size: 265274
+//   //     },
+//   //   };
+//   //   const res = {
+//   //     statusCode: 1351,
+//   //     responseJson: null,
+//   //     status(code) {
+//   //       this.statusCode = code;
+//   //       return this;
+//   //     },
+//   //     json(response) {
+//   //       this.responseJson = response;
+//   //       return this;
+//   //     },
+//   //   };
 
-//       await userController.getBlockedUsers(req, res, next);
+//   //   afterEach(() => {
+//   //     res.status(1351);
+//   //     res.json(null);
+//   //   });
 
-//       expect(findStub).to.have.been.calledOnceWith({ blocked: true });
-//       expect(res.status).to.have.been.calledOnceWith(200);
-//       expect(res.json).to.have.been.calledOnceWith({
-//         message: 'Logged in',
-//         user: blockedUsers,
-//       });
-//       expect(next).not.to.have.been.called;
+//   //   it("should return a status code of 200 and a message Registered successfully", async () => {
+//   //     try {
+//   //       await userController.postRegister(req, res, () => {
+//   //         console.log(res.user)
+//   //       });
+//   //     } catch (error) {
+//   //       console.log(error);
+//   //     }
+//   //     expect(res.statusCode).to.equal(200);
+//   //   });
+//   // });
+
+//   describe("getBlockedUsers", () => {
+//     const req = {};
+//     const res = {
+//       statusCode: 1351,
+//       responseJson: null,
+//       status(code) {
+//         this.statusCode = code;
+//         return this;
+//       },
+//       json(response) {
+//         this.responseJson = response;
+//         return this;
+//       },
+//     };
+//     afterEach(() => {
+//       res.status(1351);
+//       res.json(null);
 //     });
 
-//     it('should return a 401 status code if no users are found', async () => {
-//       const findStub = sinon.stub(UserModal, 'find').resolves([]);
-//       const req = {};
-//       const res = {
-//         status: sinon.stub().returnsThis(),
-//         json: sinon.stub(),
-//       };
-//       const next = sinon.stub();
+//     it("should return a status code of 401 and a message No user exist", async () => {
+//       try {
+//         await userController.getBlockedUsers(req, res, () => {});
+//       } catch (error) {
+//         console.log(error);
+//       }
 
-//       await userController.getBlockedUsers(req, res, next);
-
-//       expect(findStub).to.have.been.calledOnceWith({ blocked: true });
-//       expect(res.status).to.have.been.calledOnceWith(401);
-//       expect(res.json).to.have.been.calledOnceWith({
-//         message: 'No user exist',
-//       });
-//       expect(next).not.to.have.been.called;
+//       expect(res.statusCode).to.equal(401);
+//       expect(res.responseJson).have.property("message", "No user exist");
 //     });
 
-//     it('should call the error handler if an error occurs', async () => {
-//       const error = new Error('Database error');
-//       const findStub = sinon.stub(UserModal, 'find').rejects(error);
-//       const req = {};
-//       const res = {};
-//       const next = sinon.stub();
+//     it("should return a list of blocked users with a status code of 200", async () => {
+//       const blockedUsers = [
+//         {
+//           _id: "64247e4df08cc1ab189eda6a",
+//           name: "Alice",
+//           password: "password",
+//           profilePicUrl: "uploads/images/2023-03-29T18_07_09.776Z-16096.jpg",
+//           email: "him@gmail.com",
+//           mobile: "1234567890",
+//           address: "123 Main St",
+//           pincode: "123456",
+//           orders: [],
+//           blocked: true,
+//           type: "Seller",
+//         },
+//       ];
+//       try {
+//         await UserModal.insertMany(blockedUsers);
+//         await userController.getBlockedUsers(req, res, () => {});
+//       } catch (error) {
+//         console.log(error);
+//       }
 
-//       await userController.getBlockedUsers(req, res, next);
-
-//       expect(findStub).to.have.been.calledOnceWith({ blocked: true });
-//       expect(next).to.have.been.calledOnceWith(error);
+//       expect(res.statusCode).to.equal(200);
+//       expect(res.responseJson).have.property("message", "Logged in");
+//       expect(res.responseJson).have.property("user");
+//       expect(res.responseJson.user[0]._id.toString()).to.equal(
+//         blockedUsers[0]._id
+//       );
 //     });
 //   });
-// });
-
-const chai = require("chai");
-const sinon = require("sinon");
-const sinonChai = require("sinon-chai");
-const bcrypt = require("bcrypt");
-
-const expect = chai.expect;
-chai.use(sinonChai);
-
-const mongoose = require("mongoose");
-const UserModal = require("../models/userModal");
-const userController = require("../controller/userController");
-
-describe("User Controller", () => {
-  let user;
-  before(async () => {
-    await mongoose.connect("mongodb+srv://sachinm20:cp300464@cluster0.nkes8uj.mongodb.net/ShopDb?retryWrites=true&w=majority");
-    user = new UserModal({
-      _id: "69697e4df08cc1ab189e6969",
-      name: "Test",
-      password: "12345678",
-      profilePicUrl: "uploads/images/2023-03-29T18_07_09.776Z-16096.jpg",
-      email: "test@test.com",
-      mobile: "9876543210",
-      address: "123 Main St",
-      pincode: "123456",
-      orders: [],
-      blocked: false,
-      type: "Seller",
-    });
-    await user.save();
-  });
-
-  after(async () => {
-    await UserModal.deleteMany({});
-    await mongoose.connection.close();
-  });
-
-  // describe("postRegister", () => {
-  //   const req = {
-  //     body: {
-  //       name: "John Doe",
-  //       password: "password123",
-  //       email: "john@example.com",
-  //       confirmPassword: "password123",
-  //       mobile: "1234567890",
-  //       address: "123 Main St",
-  //       pincode: "123456",
-  //       type: "Buyer",
-  //     },
-  //     file: {
-  //       fieldname: 'profile-pic',
-  // originalname: 'WIN_20230120_19_27_26_Pro.jpg',
-  // encoding: '7bit',
-  // mimetype: 'image/jpeg',
-  // destination: '../shared/uploads/images',
-  // filename: '2023-04-22T17_52_45.686Z-WIN_20230120_19_27_26_Pro.jpg',
-  // path: '..\\shared\\uploads\\images\\2023-04-22T17_52_45.686Z-WIN_20230120_19_27_26_Pro.jpg',
-  // size: 265274
-  //     },
-  //   };
-  //   const res = {
-  //     statusCode: 1351,
-  //     responseJson: null,
-  //     status(code) {
-  //       this.statusCode = code;
-  //       return this;
-  //     },
-  //     json(response) {
-  //       this.responseJson = response;
-  //       return this;
-  //     },
-  //   };
-
-  //   afterEach(() => {
-  //     res.status(1351);
-  //     res.json(null);
-  //   });
-
-  //   it("should return a status code of 200 and a message Registered successfully", async () => {
-  //     try {
-  //       await userController.postRegister(req, res, () => {
-  //         console.log(res.user)
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     expect(res.statusCode).to.equal(200);
-  //   });
-  // });
-
-  describe("getBlockedUsers", () => {
-    const req = {};
-    const res = {
-      statusCode: 1351,
-      responseJson: null,
-      status(code) {
-        this.statusCode = code;
-        return this;
-      },
-      json(response) {
-        this.responseJson = response;
-        return this;
-      },
-    };
-    afterEach(() => {
-      res.status(1351);
-      res.json(null);
-    });
-
-    it("should return a status code of 401 and a message No user exist", async () => {
-      try {
-        await userController.getBlockedUsers(req, res, () => {});
-      } catch (error) {
-        console.log(error);
-      }
-
-      expect(res.statusCode).to.equal(401);
-      expect(res.responseJson).have.property("message", "No user exist");
-    });
-
-    it("should return a list of blocked users with a status code of 200", async () => {
-      const blockedUsers = [
-        {
-          _id: "64247e4df08cc1ab189eda6a",
-          name: "Alice",
-          password: "password",
-          profilePicUrl: "uploads/images/2023-03-29T18_07_09.776Z-16096.jpg",
-          email: "him@gmail.com",
-          mobile: "1234567890",
-          address: "123 Main St",
-          pincode: "123456",
-          orders: [],
-          blocked: true,
-          type: "Seller",
-        },
-      ];
-      try {
-        await UserModal.insertMany(blockedUsers);
-        await userController.getBlockedUsers(req, res, () => {});
-      } catch (error) {
-        console.log(error);
-      }
-
-      expect(res.statusCode).to.equal(200);
-      expect(res.responseJson).have.property("message", "Logged in");
-      expect(res.responseJson).have.property("user");
-      expect(res.responseJson.user[0]._id.toString()).to.equal(
-        blockedUsers[0]._id
-      );
-    });
-  });
   
-  describe("getUsers", () => {
-    const req = {};
-    const res = {
-      statusCode: 1351,
-      responseJson: null,
-      status(code) {
-        this.statusCode = code;
-        return this;
-      },
-      json(response) {
-        this.responseJson = response;
-        return this;
-      },
-    };
+//   describe("getUsers", () => {
+//     const req = {};
+//     const res = {
+//       statusCode: 1351,
+//       responseJson: null,
+//       status(code) {
+//         this.statusCode = code;
+//         return this;
+//       },
+//       json(response) {
+//         this.responseJson = response;
+//         return this;
+//       },
+//     };
 
-    afterEach(() => {
-      res.status(1351);
-      res.json(null);
-    });
+//     afterEach(() => {
+//       res.status(1351);
+//       res.json(null);
+//     });
 
-    it("should return a list of users with a status code of 200", async () => {
-      try {
-        await userController.getUsers(req, res, () => {});
-      } catch (error) {
-        console.log(error);
-      }
+//     it("should return a list of users with a status code of 200", async () => {
+//       try {
+//         await userController.getUsers(req, res, () => {});
+//       } catch (error) {
+//         console.log(error);
+//       }
 
-      expect(res.statusCode).to.equal(200);
-    });
+//       expect(res.statusCode).to.equal(200);
+//     });
 
-    it("should return a status code of 404 and an error message if no users exist", async () => {
-      sinon.stub(UserModal, "find").rejects();
-      try {
-        await userController.getUsers(req, res, () => {});
-      } catch (error) {
-        console.log(error);
-      }
+//     it("should return a status code of 404 and an error message if no users exist", async () => {
+//       sinon.stub(UserModal, "find").rejects();
+//       try {
+//         await userController.getUsers(req, res, () => {});
+//       } catch (error) {
+//         console.log(error);
+//       }
 
-      UserModal.find.restore();
-      expect(res.statusCode).to.equal(404);
-      expect(res.responseJson).have.property("message");
-      expect(res.responseJson.message.toString()).to.equal("Error: Error");
-    });
-  });
+//       UserModal.find.restore();
+//       expect(res.statusCode).to.equal(404);
+//       expect(res.responseJson).have.property("message");
+//       expect(res.responseJson.message.toString()).to.equal("Error: Error");
+//     });
+//   });
 //   describe("postUser", () => {
 //     const req = {
 //       body: {
@@ -354,4 +354,4 @@ describe("User Controller", () => {
 //       expect(res.responseJson.message.toString()).to.equal("Error: Error");
 //     });
 //   });
-});
+// });
