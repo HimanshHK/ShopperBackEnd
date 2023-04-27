@@ -20,5 +20,6 @@ jobs:
       - name: NPM install, build and test
         working-directory: ./backend
         run: |
-          npm install --force
+          npm install --unsafe-perm --force
           npm test
+
