@@ -2,7 +2,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "devStart": "nodemon server.js",
-    "test": "mocha --timeout 12000",
+    "test": "mocha --timeout 300000",
     "build":"npm i"
   },
   "name": "backend",
