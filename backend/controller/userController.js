@@ -1,35 +1,36 @@
-
 const UserModal = require("../models/userModal");
 const bcrypt = require("bcrypt");
 
 // GET Methods
 exports.getBlockedUsers = (req, res, next) => {
-  return UserModal.find({ blocked: true }).then((user)=>{
-    console.log(user);
-    if(user.length===0)
-    return res.status(401).json({ message: "No user exist"});
-    else
-    return res.status(200).json({ message: "Logged in", user: user })
-  })
+  return UserModal.find({ blocked: true })
+    .then((user) => {
+      if (user.length === 0)
+        return res.status(401).json({ message: "No user exist" });
+      else return res.status(200).json({ message: "Logged in", user: user });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   // console.log(user)
 };
 
 exports.getUsers = (req, res, next) => {
-  return UserModal.find({blocked:false})
+  return UserModal.find({ blocked: false })
     .then((data) => {
       // console.log(data)
-      res.status(200).json(data);
+      return res.status(200).json(data);
     })
     .catch((err) => {
-      res.status(404).json({ message: err });
+      return res.status(404).json({ message: err });
     });
 };
 
 exports.getUserById = (req, res, next) => {
   const id = req.params.id;
   // console.log(id, "hi");
-  UserModel.findById(id)
+  return UserModel.findById(id)
     .then((data) => {
       res.status(200).json(data);
     })
@@ -58,8 +59,8 @@ exports.postUser = (req, res, next) => {
         });
     })
     .catch((err) => {
-      return res.json({ message: err });
-    });
+      return res.json({ message: err });
+    });
 };
 
 // exports.postRegister = (req, res, next) => {
@@ -94,13 +95,17 @@ exports.postUser = (req, res, next) => {
 // };
 
 exports.postRegister = (req, res, next) => {
-  console.log(req.body);
+  console.log(req);
+  console.log(req.file);
   const user = new UserModal({
     name: req.body.name,
     password: req.body.password,
-    profilePicUrl: req.file.path
+    profilePicUrl: req.file?.path
       .toString()
-      .replace(/\\/g, "/"),
+      .replace(/\\/g, "/")
+      .split("shared/")
+      .slice(1)
+      .join(""),
     email: req.body.email,
     confirmPassword: req.body.confirmPassword,
     mobile: req.body.mobile,
@@ -110,10 +115,9 @@ exports.postRegister = (req, res, next) => {
     type: req.body.type,
   });
 
-  user
+  return user
     .save()
     .then((data) => {
-      console.log(data);
       res.status(200).json(data);
     })
     .catch((err) => {
@@ -121,33 +125,33 @@ exports.postRegister = (req, res, next) => {
     });
 };
 
-
 exports.postUpdateUser = (req, res, next) => {
   const { password, email, field, newvalue } = req.body;
-//  console.log(user)
-  UserModal.findOne({email: email}).then((user) => { 
+  //  console.log(user)
+  return UserModal.findOne({ email: email }).then((user) => {
     if (!user) {
-        return res.status(403).json({message: "User does not exists"})
-    }   
+      return res.status(403).json({ message: "User does not exists" });
+    }
     // console.log(user);
-    bcrypt.compare(password, user.password).then((doMatch) => {
-      if (doMatch) {
-        user.password = password
-        user[field] = newvalue;
-        user.save().then((result) => {
-          console.log(result)
-          return res.status(200).json({message: "Field Updated", result: user})
-        });
-      }
-      else{
-        return res.status(401).json({message: "Invalid Password"})
-      }
-      
-    }).catch((err) => {
-      console.log(err);
-      return res.json({ message: err });
-    });
-    
-})
-
+    bcrypt
+      .compare(password, user.password)
+      .then((doMatch) => {
+        if (doMatch) {
+          user.password = password;
+          user[field] = newvalue;
+          user.save().then((result) => {
+            console.log(result);
+            return res
+              .status(200)
+              .json({ message: "Field Updated", result: user });
+          });
+        } else {
+          return res.status(401).json({ message: "Invalid Password" });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.json({ message: err });
+      });
+  });
 };
