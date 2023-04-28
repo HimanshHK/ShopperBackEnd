@@ -58,7 +58,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerjsdoc))
 //   // ...
 // });
 //connect to mongodb
-mongoose.connect("mongodb+srv://sachinm20:cp300464@cluster0.nkes8uj.mongodb.net/ShopDb?retryWrites=true&w=majority", {
+mongoose.connect("mongodb://localhost:27017/ShopDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
